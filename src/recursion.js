@@ -5,31 +5,105 @@
 // Example:  5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5);  // 120
 var factorial = function(n) {
+	if (n > 1) {
+		return n * factorial(n - 1); 
+	} // recursive case 
+
+	if (n === 0 || n === 1) {
+		return 1; 
+	} //base case
+
+	if (n < 0) {
+		return null; 
+	}
 };
 
 // 2. Compute the sum of an array of integers.
 // Example:  sum([1, 2, 3, 4, 5, 6]);  // 21
 var sum = function(array) {
+	if (array.length > 0) {
+		return array[0] + sum(array.slice(1));
+	} // recursive case
+
+	if (array.length === 0) {
+		return 0;
+	} // base case
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+	var currentElement = array[0];
+
+	if (array.length > 0) {
+		if (Array.isArray(currentElement)) {
+			currentElement = arraySum(currentElement); 
+			// if element is an array, call the recursive function on it to go through the nest 
+		} 
+		return currentElement + arraySum(array.slice(1));
+	} // recursive case
+
+	if (array.length === 0) {
+		return 0;
+	} // base case
+
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+	if (n < 0) {
+		return isEven(n * -1); 
+	} // if negative integer, convert to positive
+
+	if (n > 1) {
+		return isEven(n - 2); 
+	}
+
+	if (n === 1) {
+		return false; 
+	} // base case return false if odd
+
+	if (n === 0) {
+		return true;
+	} // base case return true if even
+
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
+// 5, want to add up 4 3 2 1 or 1 2 3 4
 var sumBelow = function(n) {
+	
+	if (n > 0) {
+		n = n - 1;
+		return n + sumBelow(n); 
+	} 
+
+	if (n < 0) {
+		n = n + 1;
+		return n + sumBelow(n);
+	}
+
+	if (n === 0) {
+		return 0;
+	} //base case
 };
 
 // 6. Get the integers in range (x, y).
 // Example:  range(2, 9);  // [3, 4, 5, 6, 7, 8]
 var range = function(x, y) {
+	if (x - 1 > y) {
+		return [x - 1].concat(range(x - 1, y));  
+	} // recursive case if x > y; each element decreasing by 1 
+
+	if (x + 1 < y) {
+		return [x + 1].concat(range(x + 1, y)); 
+	} // recursive case if x < y; each element increasing by 1
+
+	if (x + 1 === y || x - 1 === y || x === y) {
+		return [];
+	} // base case if integers are only 1 apart or equal, so no range;
 };
 
 // 7. Compute the exponent of a number.
@@ -38,6 +112,17 @@ var range = function(x, y) {
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+	if (exp >= 1) {
+		return base * exponent(base, exp - 1);
+	} // for positive exponents, multiply base by itself; 
+
+	if (exp <= -1) {
+		return exponent(base, exp + 1) / base; 
+	} // for negative exponents, divide by the base. 2^-3 = (1/2 * 1/2 * 1/2)
+
+	if (exp === 0) {
+		return 1;
+	} // base case if exponent = 0, also when exp is increased/decreased to 0, it will return 1 to break recursion	
 };
 
 // 8. Determine if a number is a power of two.
